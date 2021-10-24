@@ -1,8 +1,9 @@
 // Required Modules
 const fs = require("fs");
 const notesData = require("../db/db.json");
-
-module.exports = function(app){
+const router = require("express").Router();
+const save = require("../db/saveData");
+//module.exports = function(app){
 
 
     function writeToDB(notes){
@@ -15,11 +16,14 @@ module.exports = function(app){
         });
     }
 
-    app.get("/api/notes", function(_req, res){
-        res.json(notesData);
+    router.get("/notes", function(req, res){
+        save.retrieveNotes().then((notes) => {
+            return res.json(notes);
+        })
+       .catch((err) => res.status(500).json(err))
     });
 
-    app.post("/api/notes", function(req, res){
+    router.post("/notes", function(req, res){
 
         if (notesData.length == 0){
             req.body.id = "0";
@@ -35,7 +39,7 @@ module.exports = function(app){
     });
 
 
-    app.delete("/api/notes/:id", function(req, res){
+    router.delete("/notes/:id", function(req, res){
         let id = req.params.id.toString();
         console.log(id);
         for (i=0; i < notesData.length; i++){
@@ -50,4 +54,5 @@ module.exports = function(app){
         writeToDB(notesData);
 
     });
-};
+//};
+module.exports = router;

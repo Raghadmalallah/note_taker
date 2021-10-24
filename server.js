@@ -1,7 +1,8 @@
 // add required modules
 const express = require("express");
 const path = require("path");
-
+const apiRoutes = require("./routes/apiRoutes");
+const htmlRoutes = require("./routes/htmlRoutes");
 // Create server application at port 3000
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -11,9 +12,10 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 // Include js files
-require("./routes/apiRoutes")(app);
-require("./routes/htmlRoutes")(app);
-
+//require("./routes/apiRoutes")(app);
+//require("./routes/htmlRoutes")(app);
+app.use("/api", apiRoutes);
+app.use("/", htmlRoutes);
 // Use public folder
 app.use(express.static("public"));
 
