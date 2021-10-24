@@ -3,7 +3,8 @@ const fs = require("fs");
 const notesData = require("../db/db.json");
 const router = require("express").Router();
 const save = require("../db/saveData");
-//module.exports = function(app){
+
+
 
 
     function writeToDB(notes){
